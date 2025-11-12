@@ -1,0 +1,6 @@
+/Users/berriche/Desktop/Seattle_projet/.venv/lib/python3.11/site-packages/fs/__init__.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  __import__("pkg_resources").declare_namespace(__name__)  # type: ignore
+2025-11-12T16:09:29+0100 [INFO] [cli] Prometheus metrics for HTTP BentoServer from "service:svc" can be accessed at http://127.0.0.1:8002/metrics.
+2025-11-12T16:09:30+0100 [INFO] [cli] Starting production HTTP BentoServer from "service:svc" listening on http://127.0.0.1:8002 (Press CTRL+C to quit)
+/Users/berriche/Desktop/Seattle_projet/.venv/lib/python3.11/site-packages/fs/__init__.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  __import__("pkg_resources").declare_namespace(__name__)  # type: ignore
