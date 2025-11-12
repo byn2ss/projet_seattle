@@ -1,6 +1,83 @@
-/Users/berriche/Desktop/Seattle_projet/.venv/lib/python3.11/site-packages/fs/__init__.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+/home/codespace/.python/current/lib/python3.12/site-packages/fs/__init__.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
   __import__("pkg_resources").declare_namespace(__name__)  # type: ignore
-2025-11-12T16:09:29+0100 [INFO] [cli] Prometheus metrics for HTTP BentoServer from "service:svc" can be accessed at http://127.0.0.1:8002/metrics.
-2025-11-12T16:09:30+0100 [INFO] [cli] Starting production HTTP BentoServer from "service:svc" listening on http://127.0.0.1:8002 (Press CTRL+C to quit)
-/Users/berriche/Desktop/Seattle_projet/.venv/lib/python3.11/site-packages/fs/__init__.py:4: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
-  __import__("pkg_resources").declare_namespace(__name__)  # type: ignore
+Traceback (most recent call last):
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/fs/osfs.py", line 647, in open
+    return io.open(
+           ^^^^^^^^
+IsADirectoryError: [Errno 21] Is a directory: b'/workspaces/projet_seattle/.bentoml/models/energy_rf_pipeline/latest'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/codespace/.python/current/bin/bentoml", line 7, in <module>
+    sys.exit(cli())
+             ^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/click/core.py", line 1462, in __call__
+    return self.main(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/click/core.py", line 1383, in main
+    rv = self.invoke(ctx)
+         ^^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/click/core.py", line 1850, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/click/core.py", line 1246, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/click/core.py", line 814, in invoke
+    return callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/bentoml_cli/utils.py", line 359, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/bentoml_cli/utils.py", line 330, in wrapper
+    return_value = func(*args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/bentoml_cli/env_manager.py", line 123, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/bentoml_cli/serve.py", line 261, in serve
+    svc = load(bento_identifier=bento, working_dir=working_dir)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/bentoml/_internal/service/loader.py", line 408, in load
+    svc = import_service(
+          ^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/simple_di/__init__.py", line 139, in _
+    return func(*_inject_args(bind.args), **_inject_kwargs(bind.kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/bentoml/_internal/service/loader.py", line 152, in import_service
+    module = importlib.import_module(module_name, package=working_dir)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 994, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/workspaces/projet_seattle/Seattle_projet/service.py", line 6, in <module>
+    model_ref = bentoml.sklearn.get("energy_rf_pipeline:latest")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/simple_di/__init__.py", line 139, in _
+    return func(*_inject_args(bind.args), **_inject_kwargs(bind.kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/bentoml/models.py", line 46, in get
+    return _model_store.get(tag)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/bentoml/_internal/store.py", line 147, in get
+    _tag.version = self._fs.readtext(_tag.latest_path())
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/fs/base.py", line 693, in readtext
+    self.open(
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/fs/osfs.py", line 643, in open
+    with convert_os_errors("open", path):
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/fs/error_tools.py", line 89, in __exit__
+    reraise(fserror, fserror(self._path, exc=exc_value), traceback)
+  File "/home/codespace/.local/lib/python3.12/site-packages/six.py", line 723, in reraise
+    raise value.with_traceback(tb)
+  File "/home/codespace/.python/current/lib/python3.12/site-packages/fs/osfs.py", line 647, in open
+    return io.open(
+           ^^^^^^^^
+fs.errors.FileExpected: path 'energy_rf_pipeline/latest' should be a file

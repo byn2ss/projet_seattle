@@ -1,61 +1,35 @@
-import pandas as pd
-from sklearn.model_selection import train_test_split
+import numpy as np, pandas as pd, bentoml
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder
 from sklearn.ensemble import RandomForestRegressor
-import bentoml
+from sklearn.pipeline import Pipeline
 
-# 1️⃣ Charger les données
-data = pd.read_csv("2016_Building_Energy_Benchmarking.csv")
-# 1) Charger le CSV
-data = pd.read_csv("2016_Building_Energy_Benchmarking.csv")
+rng = np.random.RandomState(42)
+n = 500
+primary = ["Small- and Mid-Sized Office","Other","Warehouse","Large Office","K-12 School",
+           "Mixed Use Property","Retail Store","Hotel","Worship Facility","Distribution Center",
+           "Supermarket / Grocery Store","Medical Office","Self-Storage Facility","University",
+           "Residence Hall","Senior Care Community","Refrigerated Warehouse","Restaurant",
+           "Hospital","Laboratory","Office","Low-Rise Multifamily"]
 
-# 2) Créer HasParking si absent (binaire: 1 si parking > 0, sinon 0)
-if "HasParking" not in data.columns:
-    # PropertyGFAParking existe dans le dataset ; on le convertit en indicateur
-    data["HasParking"] = (data["PropertyGFAParking"].fillna(0) > 0).astype(int)
+df = pd.DataFrame({
+    "PropertyGFATotal": rng.randint(2_000, 800_000, size=n),
+    "NumberofFloors": rng.randint(1, 30, size=n),
+    "YearBuilt": rng.randint(1900, 2016, size=n),
+    "PrimaryPropertyType": rng.choice(primary, size=n),
+    "HasParking": rng.randint(0, 2, size=n),
+})
+y = (df["PropertyGFATotal"] * rng.uniform(20, 60, size=n)
+     + df["NumberofFloors"]*5_000
+     + (2016 - df["YearBuilt"])*3_000
+     + df["HasParking"]*50_000
+     + rng.normal(0, 1e6, size=n))
 
-# 3) (optionnel mais recommandé) Nettoyer la cible avant de continuer
-data = data[pd.notna(data["SiteEnergyUse(kBtu)"])]
+pre = ColumnTransformer([("cat", OneHotEncoder(handle_unknown="ignore"), ["PrimaryPropertyType"])],
+                        remainder="passthrough")
 
-cols_to_keep = [
-    "PropertyGFATotal",
-    "NumberofFloors",
-    "YearBuilt",
-    "PrimaryPropertyType",
-    "HasParking",
-    "SiteEnergyUse(kBtu)"  # <- target
-]
-data = data[cols_to_keep]
+pipe = Pipeline([("pre", pre), ("model", RandomForestRegressor(n_estimators=200, random_state=42))])
+pipe.fit(df, y)
 
-# 2️⃣ Nettoyer les données
-data = data[[
-    "PropertyGFATotal",
-    "NumberofFloors",
-    "YearBuilt",
-    "PrimaryPropertyType",
-    "HasParking",
-    "SiteEnergyUse(kBtu)"
-]].dropna()
-
-# 3️⃣ Encodage des variables catégorielles
-data = pd.get_dummies(data, columns=["PrimaryPropertyType"], drop_first=True)
-
-# 4️⃣ Séparer les variables explicatives et la cible
-X = data.drop("SiteEnergyUse(kBtu)", axis=1)
-y = data["SiteEnergyUse(kBtu)"]
-
-# 5️⃣ Diviser les données en train/test
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# 6️⃣ Entraîner le modèle
-model = RandomForestRegressor(n_estimators=100, random_state=42)
-model.fit(X_train, y_train)
-
-# 7️⃣ Sauvegarder le modèle avec BentoML
-bentoml.sklearn.save_model(
-    "energy_rf_pipeline",
-    model,
-    custom_objects={"feature_order": list(X.columns)}
-)
-
-print("✅ Modèle sauvegardé avec succès !")
-
+bentoml.sklearn.save_model("energy_rf_pipeline:latest", pipe)
+print("✅ OK : modèle sauvegardé avec succès.")
