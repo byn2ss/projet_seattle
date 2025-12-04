@@ -135,3 +135,14 @@ model = joblib.load("random_forest_model.pkl")
 bento_model = bentoml.sklearn.save_model(
     "energy_rf_pipeline", model
 )
+## 🚀 Déploiement du modèle en API
+
+Le modèle Random Forest a été converti en API avec BentoML puis déployé via Docker.
+
+### 📦 Docker Hub Image
+➡️ https://hub.docker.com/r/nisrineberriche/energy-consumption-api
+
+### ▶️ Lancer l’API localement (nécessite Docker)
+```sh
+docker pull nisrineberriche/energy-consumption-api
+docker run -p 3000:3000 nisrineberriche/energy-consumption-api
